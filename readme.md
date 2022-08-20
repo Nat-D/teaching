@@ -21,3 +21,9 @@
 
 5. install albumentation
 	- `pip install -U albumentations`
+
+
+# Download Dataset
+
+`https://drive.google.com/drive/folders/1feL5X6epYQiGaT-dHpgV7yWU7_ZthVVI?usp=sharing`
+
