@@ -27,3 +27,10 @@
 
 `https://drive.google.com/drive/folders/1feL5X6epYQiGaT-dHpgV7yWU7_ZthVVI?usp=sharing`
 
+
+# References
+
+1. https://github.com/aladdinpersson/Machine-Learning-Collection
+2. https://pytorch.org/tutorials/
+3. https://www.kaggle.com/competitions/dogs-vs-cats
+4. http://www.cvlibs.net/datasets/kitti/
