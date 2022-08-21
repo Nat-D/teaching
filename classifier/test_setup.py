@@ -16,7 +16,7 @@ from dataset import CatDogMiniDataset
 
 
 
-def test_main(num_epoch=1000,
+def test_main(num_epoch=50,
          learning_rate=0.001,
          batch_size=32,
          num_workers=1, 
@@ -51,8 +51,9 @@ def test_main(num_epoch=1000,
     optimizer = optim.Adam(network.parameters(), lr=learning_rate)
     logger = Logger(device)
 
+
+    x, target = next(iter(train_loader))
     for epoch in range(num_epoch):
-        x, target = next(iter(train_loader))
         x = x.to(device)
         target = target.to(device)
         y_pred = network(x)
@@ -60,9 +61,7 @@ def test_main(num_epoch=1000,
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        logger.log_step(loss.item())
-
-        logger.log_epoch(network)
+        print(loss)
 
 
 if __name__ == "__main__":
