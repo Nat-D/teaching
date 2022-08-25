@@ -12,6 +12,9 @@ from logger import TensorboardLogger
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
+import platform
+import re
+import time
 
 def main(num_epoch=1000,
          learning_rate=0.0001,
@@ -48,14 +51,25 @@ def main(num_epoch=1000,
 
     # 2. initiate model / loss function/ optimizer
     network = UNET(in_channels=3, out_channels=3)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
+    this_device = platform.platform()
+    if torch.cuda.is_available():
+        device = "cuda"
+    elif re.search("arm64", this_device):
+        # use Apple GPU
+        device = "mps"
+    else:
+        device = "cpu"
+
+
     network.to(device)
 
     loss_fn = nn.CrossEntropyLoss()
     optimizer = optim.Adam(network.parameters(), lr=learning_rate)
 
     # 3. initiate logger
-    logger = TensorboardLogger(device)
+    current_time = time.time()
+    logger = TensorboardLogger(device, log_dir=f'runs/{current_time}')
 
     # 4. training loop 
     for epoch in range(num_epoch):

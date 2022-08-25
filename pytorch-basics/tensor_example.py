@@ -83,6 +83,19 @@ x_3x3 = x.reshape(3, 3)
 
 
 
+# 8. use Nvidia GPU or Apple GPU
+import platform
+import re
+this_device = platform.platform()
+if torch.cuda.is_available():
+    device = "cuda"
+elif re.search("arm64", this_device):
+    # use Apple GPU
+    device = "mps"
+else:
+    device = "cpu"
 
-
+my_tensor = torch.tensor([[1,2,3],[4,5,6]], 
+                         dtype=torch.float32,
+                         device=device, requires_grad=True)
 

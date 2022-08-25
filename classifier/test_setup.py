@@ -14,7 +14,8 @@ from model import MyNet
 from logger import Logger
 from dataset import CatDogMiniDataset
 
-
+import re
+import platform
 
 def test_main(num_epoch=50,
          learning_rate=0.001,
@@ -43,8 +44,17 @@ def test_main(num_epoch=50,
                               shuffle=True
                               )
     network = MyNet()
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(device)
+    
+    this_device = platform.platform()
+    if torch.cuda.is_available():
+        device = "cuda"
+    elif re.search("arm64", this_device):
+        # use Apple GPU
+        device = "mps"
+    else:
+        device = "cpu"
+
+
     network.to(device)
 
     loss_fn = nn.CrossEntropyLoss()
