@@ -20,7 +20,8 @@
 	- `pip install tensorboard`
 
 5. install albumentation
-	- `pip install -U albumentations`
+	- `conda install -c conda-forge imgaug`
+	- `conda install -c conda-forge albumentations`
 
 
 # Download Dataset
