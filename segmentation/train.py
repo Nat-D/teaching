@@ -72,6 +72,7 @@ def main(num_epoch=1000,
     logger = TensorboardLogger(device, log_dir=f'runs/{current_time}')
 
     # 4. training loop 
+    print('The model is training...(view the progress in Tensorboard)')
     for epoch in range(num_epoch):
         for batch_idx, (image, mask) in enumerate(train_loader):
 

@@ -37,6 +37,9 @@ class Logger():
                             )
 
     def log_step(self, loss):
+        if self.training_step % 20 == 0:
+            print(f"Training at step: {self.training_step}, Loss: {loss}")
+        
         self.training_loss += loss
         self.training_step += 1
 
@@ -44,7 +47,7 @@ class Logger():
     def log_epoch(self, network):
 
         # Training Set
-        print(f"(Train Set) Loss: {self.training_loss}")
+        print(f"(Train Set) Avg Loss: {self.training_loss / self.training_step}")
         self.training_loss = 0 
 
         # Validation Set

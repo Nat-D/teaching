@@ -76,6 +76,7 @@ def main(num_epoch=10,
     logger = Logger(device)
 
     # 4. training loop
+    print('Training started....')
     for epoch in range(num_epoch):
         for batch_idx, (x, target) in enumerate(train_loader):
             
