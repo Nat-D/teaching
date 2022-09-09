@@ -1,7 +1,7 @@
-seq2seq/
 raw/
 train/
 val/
+.data/
 
 .ipynb_checkpoints/
 __pycache__/
