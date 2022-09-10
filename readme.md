@@ -19,9 +19,16 @@
 4. install tensorboard
 	- `pip install tensorboard`
 
-5. install albumentation
+5. (segmentation) install albumentation
 	- `conda install -c conda-forge imgaug`
 	- `conda install -c conda-forge albumentations`
+
+6. (seq2seq) install spacy
+	- `pip install -U spacy`
+	- `python -m spacy download en_core_web_sm`
+	- `python -m spacy download de_core_news_sm`
+7. (seq2seq) install torchtext and torch-data
+	- `conda install -c pytorch torchtext torchdata`
 
 
 # Download Dataset
