@@ -40,10 +40,16 @@ de_vocab_transform = build_vocab_from_iterator(de_yield_tokens(train_iter),
                                                specials=special_symbols,
                                                special_first=True)
 
+len_de_vocab = len(de_vocab_transform)
+
+
 en_vocab_transform = build_vocab_from_iterator(en_yield_tokens(train_iter),
                                                min_freq=1,
                                                specials=special_symbols,
                                                special_first=True)
+
+len_en_vocab = len(en_vocab_transform)
+
 de_vocab_transform.set_default_index(unk_idx)
 en_vocab_transform.set_default_index(unk_idx)
 

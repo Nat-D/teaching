@@ -13,5 +13,3 @@ class Logger():
         self.accumulate_loss = 0
 
 
-
-
