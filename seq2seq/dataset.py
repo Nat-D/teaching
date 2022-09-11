@@ -91,9 +91,28 @@ def collate_fn(batch):
     return de_batch, en_batch
 
 
+if __name__ == "__main__":
+
+    from torch.utils.data import DataLoader
+    import numpy as np
 
 
+    train_dataloader = DataLoader(train_iter, 
+                        batch_size=5, 
+                        collate_fn=collate_fn,
+                        num_workers=2,
+                        drop_last=True,
+                        shuffle=True)
+    
 
+    ger,eng =  next(iter(train_dataloader))
+    
+    itos = de_vocab_transform.get_itos()
+    ger = ger.numpy().astype(np.uint32)
+    itos = np.array(itos)
+    ger_strings = np.transpose(itos[ger]).reshape(-1)
+
+    print(" ".join(ger_strings))
 
 
 

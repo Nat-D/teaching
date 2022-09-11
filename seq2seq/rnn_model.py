@@ -3,7 +3,7 @@ import random
 import torch
 
 
-class RnnEncoder(nn.Module):
+class Encoder(nn.Module):
     def __init__(self, 
                  input_size,
                  embedding_size,
@@ -11,7 +11,7 @@ class RnnEncoder(nn.Module):
                  num_layers,
                  p):
 
-        super(RnnEncoder, self).__init__()
+        super(Encoder, self).__init__()
         self.dropout = nn.Dropout(p)
         self.hidden_size = hidden_size
         self.num_layers = num_layers
@@ -35,7 +35,7 @@ class RnnEncoder(nn.Module):
         return hidden, cell
 
 
-class RnnDecoder(nn.Module):
+class Decoder(nn.Module):
     def __init__(self,
                  input_size,
                  embedding_size,
@@ -43,7 +43,7 @@ class RnnDecoder(nn.Module):
                  output_size,
                  num_layers,
                  p):
-        super(RnnDecoder, self).__init__()
+        super(Decoder, self).__init__()
         
         self.dropout = nn.Dropout(p)
         self.hidden_size = hidden_size
