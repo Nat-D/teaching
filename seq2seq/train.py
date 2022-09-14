@@ -15,6 +15,10 @@ from logger import Logger
 import time
 
 
+def create_model():
+    pass
+
+
 def main(num_epoch=10000,
          learning_rate=0.0001,
          batch_size=32):

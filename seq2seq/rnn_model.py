@@ -29,8 +29,8 @@ class Encoder(nn.Module):
 
         outputs, (hidden, cell) = self.rnn(embedding)
         # output shape: (seq_length, batch, hidden_size)
-        # hidden shape: (num_layers, hidden_size)
-        # cell :        (num_layers, hidden_size)
+        # hidden shape: (num_layers, batch, hidden_size)
+        # cell :        (num_layers, batch, hidden_size)
 
         return hidden, cell
 
