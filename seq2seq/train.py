@@ -10,18 +10,59 @@ from dataset import train_iter,   \
 
 
 from torch.utils.data import DataLoader
-from rnn_model import Encoder, Decoder, Seq2Seq
 from logger import Logger
 import time
+import rnn_model, rnn_attention_model
 
 
-def create_model():
-    pass
+# model factory
+def create_model(model_type, device):
+    encoder_net, decoder_net, model = None, None, None
+    if model_type == 'rnn':  
+        encoder_net = rnn_model.Encoder(input_size=len_de_vocab,
+                                 embedding_size=300,
+                                 hidden_size=1024,
+                                 num_layers=2,
+                                 p=0.5).to(device)
+        decoder_net = rnn_model.Decoder(input_size=len_en_vocab,
+                                 embedding_size=300,
+                                 hidden_size=1024,
+                                 output_size=len_en_vocab,
+                                 num_layers=2,
+                                 p=0.5).to(device)
+        model = rnn_model.Seq2Seq(encoder_net, 
+                                decoder_net,
+                                target_vocab_size=len_en_vocab).to(device)
+    
+    elif model_type == "attention":
+        
+        encoder_net =  rnn_attention_model.Encoder(
+                                input_size = len_de_vocab,
+                                embedding_size = 300,
+                                hidden_size = 1024,
+                                p=0.0).to(device)
+        decoder_net = rnn_attention_model.Decoder(
+                                input_size = len_en_vocab,
+                                embedding_size = 300,
+                                hidden_size = 1024,
+                                output_size = len_en_vocab,
+                                p=0.0).to(device)
+        model = rnn_attention_model.Seq2Seq(
+                                encoder_net,
+                                decoder_net,
+                                target_vocab_size=len_en_vocab).to(device)
+
+    elif model_type == "transformer":
+        pass
+
+
+    return encoder_net, decoder_net, model
 
 
 def main(num_epoch=10000,
          learning_rate=0.0001,
-         batch_size=32):
+         batch_size=32,
+         model_type="rnn"):
     
     # 1. get dataloader
     train_dataloader = DataLoader(train_iter, 
@@ -33,29 +74,14 @@ def main(num_epoch=10000,
 
     # 2. model components
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-    encoder_net = Encoder(input_size=len_de_vocab,
-                             embedding_size=300,
-                             hidden_size=1024,
-                             num_layers=2,
-                             p=0.5).to(device)
-    decoder_net = Decoder(input_size=len_de_vocab,
-                             embedding_size=300,
-                             hidden_size=1024,
-                             output_size=len_en_vocab,
-                             num_layers=2,
-                             p=0.5).to(device)
-
-    model = Seq2Seq(encoder_net, 
-                    decoder_net,
-                    target_vocab_size=len_en_vocab).to(device)
-
+    encoder_net, decoder_net, model = create_model(model_type, device)
     loss_fn = nn.CrossEntropyLoss(ignore_index=pad_idx).to(device)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
     # 3. logger
     current_time = time.time()
-    logger = Logger(device, log_dir=f'runs/{current_time}')
+    logger = Logger(device, 
+                    log_dir=f'runs/{model_type}{current_time}')
 
     # 4. training loop
     print('start training')
