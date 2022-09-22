@@ -66,11 +66,11 @@ class Seq2SeqTransformer(nn.Module):
         super(Seq2SeqTransformer, self).__init__()
 
         self.transformer = nn.Transformer(d_model=embedding_size,
-                                       nhead=nhead,
-                                       num_encoder_layers=num_encoder_layers,
-                                       num_decoder_layers=num_decoder_layers,
-                                       dim_feedforward=dim_feedforward,
-                                       dropout=dropout)
+                                          nhead=nhead,
+                                          num_encoder_layers=num_encoder_layers,
+                                          num_decoder_layers=num_decoder_layers,
+                                          dim_feedforward=dim_feedforward,
+                                          dropout=dropout)
         self.generator = nn.Linear(embedding_size, tgt_vocab_size)
 
         self.src_embedding = nn.Embedding(src_vocab_size, embedding_size)
@@ -83,7 +83,7 @@ class Seq2SeqTransformer(nn.Module):
         elif position_encoding_type == 'learnable':
             self.src_positional_encoding = PositionalEncodingWithEmbedding(embedding_size, device)
             self.tgt_positional_encoding = PositionalEncodingWithEmbedding(embedding_size, device)
-        
+
 
         self.device = device
 
@@ -125,7 +125,7 @@ class Seq2SeqTransformer(nn.Module):
 
             for i in range(target.shape[0]):
 
-                tgt_emb = self.tgt_positional_encoding(self.src_embedding(x))
+                tgt_emb = self.tgt_positional_encoding(self.tgt_embedding(x))
 
                 tgt_mask = self.transformer.generate_square_subsequent_mask(
                             x.shape[0]
