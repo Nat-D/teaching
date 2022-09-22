@@ -52,7 +52,7 @@ def create_model(model_type, device):
                                 decoder_net,
                                 target_vocab_size=len_en_vocab).to(device)
 
-    elif model_type == "transformer":
+    elif model_type == "transformer-sine":
 
         model = transformer_model.Seq2SeqTransformer( 
                                  num_encoder_layers = 3,
@@ -63,7 +63,23 @@ def create_model(model_type, device):
                                  tgt_vocab_size = len_en_vocab,
                                  dim_feedforward = 1024,
                                  dropout = 0.1,
-                                 device = device).to(device)
+                                 device = device,
+                                 position_encoding_type='sine'
+                                 ).to(device)
+
+    elif model_type == "transformer-learnable":
+
+        model = transformer_model.Seq2SeqTransformer( 
+                                 num_encoder_layers = 3,
+                                 num_decoder_layers = 3,
+                                 embedding_size = 512,
+                                 nhead = 8,
+                                 src_vocab_size = len_de_vocab,
+                                 tgt_vocab_size = len_en_vocab,
+                                 dim_feedforward = 1024,
+                                 dropout = 0.1,
+                                 device = device,
+                                 position_encoding_type='learnable').to(device)
 
     return model
 
@@ -129,6 +145,7 @@ def main(num_epoch=15,
 
 if __name__ == "__main__":
 
-    main(num_epoch=20, model_type="transformer")
-    main(num_epoch=20, model_type="attention")
-    main(num_epoch=20, model_type="rnn")
+    main(num_epoch=50, model_type="transformer-learnable")
+    main(num_epoch=50, model_type="transformer-sine")
+    main(num_epoch=50, model_type="rnn")
+    main(num_epoch=50, model_type="attention")
