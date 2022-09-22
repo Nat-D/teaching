@@ -1,6 +1,6 @@
-import torch
 import torch.nn as nn
-
+import random
+import torch
 
 class Encoder(nn.Module):
     def __init__(self,
@@ -133,7 +133,7 @@ class Seq2Seq(nn.Module):
         self.device = next(self.encoder.parameters()).device
 
 
-    def forward(self, source, target, teacher_force_ratio):
+    def forward(self, source, target, teacher_force_ratio=0.5):
         
         batch_size = source.shape[1]
         target_len = target.shape[0]

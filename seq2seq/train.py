@@ -59,10 +59,10 @@ def create_model(model_type, device):
     return encoder_net, decoder_net, model
 
 
-def main(num_epoch=10000,
+def main(num_epoch=15,
          learning_rate=0.0001,
          batch_size=32,
-         model_type="rnn"):
+         model_type="attention"):
     
     # 1. get dataloader
     train_dataloader = DataLoader(train_iter, 
@@ -87,8 +87,8 @@ def main(num_epoch=10000,
     print('start training')
     for epoch in range(num_epoch):
         for german_batch, eng_batch in train_dataloader:
-            german_batch = german_batch.to(device)
-            eng_batch = eng_batch.to(device) # [seq_length, batch]
+            german_batch = german_batch.long().to(device)
+            eng_batch = eng_batch.long().to(device) # [seq_length, batch]
 
             # 4.1 prediction with teacher forcing
             eng_pred = model(source=german_batch, target=eng_batch)
@@ -117,4 +117,5 @@ def main(num_epoch=10000,
         
 
 if __name__ == "__main__":
-    main()
+    main(model_type="attention")
+    main(model_type="rnn")
