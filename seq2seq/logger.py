@@ -69,11 +69,11 @@ class Logger():
                 y = y.to(self.device)
 
                 preds = model(source=x, 
-                              target=y,
+                              target=y[:-1,:],
                               teacher_force_ratio=0.0)
 
                 preds = preds.reshape(-1, preds.shape[2])
-                y = y.reshape(-1)
+                y = y[1:].reshape(-1)
 
                 loss  = self.loss_fn(preds, y)
                 total_loss += loss
@@ -89,7 +89,7 @@ class Logger():
             x = x.to(self.device)
             y = y.to(self.device)
             preds = model(source=x, 
-                          target=y,
+                          target=y[:-1,:],
                           teacher_force_ratio=0.0)
             best_guess = preds.argmax(2) #[seq_length, batch]
 

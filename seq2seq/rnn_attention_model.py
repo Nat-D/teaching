@@ -144,7 +144,7 @@ class Seq2Seq(nn.Module):
         encoder_states, hidden, cell = self.encoder(source)
         x = target[0]
 
-        for t in range(1, target_len):
+        for t in range(target_len):
 
             output, hidden, cell = self.decoder(x,
                                                 encoder_states,
@@ -154,7 +154,8 @@ class Seq2Seq(nn.Module):
 
             best_guess = output.argmax(1)
 
-            x = target[t] if random.random() < teacher_force_ratio else best_guess
+            if t < target_len - 1:
+                x = target[t+1] if random.random() < teacher_force_ratio else best_guess
 
 
         return outputs
