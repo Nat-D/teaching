@@ -7,7 +7,7 @@ import math
 
 class PositionalEncoding(nn.Module):
 
-    def __init__(self, embedding_size, device, max_len = 500, dropout = 0.1,):
+    def __init__(self, embedding_size, max_len = 500, dropout = 0.1,):
         super().__init__()
         self.dropout = nn.Dropout(p=dropout)
 
