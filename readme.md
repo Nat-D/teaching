@@ -29,6 +29,7 @@
 	- `python -m spacy download de_core_news_sm`
 7. (seq2seq) install torchtext and torch-data
 	- `conda install -c pytorch torchtext torchdata`
+  - `conda install portalocker`
 
 
 # Download Dataset
